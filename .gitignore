@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Anaconda / Virtual Environment
+env/
+venv/
+ENV/
+# 根据您的环境名称调整
+
+# IDE / Editor specific
+.vscode/
+.idea/
+
+# Data / Results (避免将大型数据文件或模型检查点纳入版本控制)
+results_*/
+*.pth
+*.pt
+*.onnx
+data/
+*.csv
+*.log
+*.png
+*.jpg
+*.gif
+
+# OS generated files
+.DS_Store
+Thumbs.db 
