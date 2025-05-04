@@ -70,7 +70,7 @@ class PricingEnvironment:
             # 为第一个智能体生成参数
             cost_0 = np.random.uniform(0.1, 0.8)
             base_demand_0 = np.random.uniform(50, 100)
-            price_elasticity_0 = np.random.uniform(-15, -8)
+            price_elasticity_0 = np.random.uniform(-25, -15)
             cross_elasticity_row_0 = np.random.uniform(0.8, 1.5, n_products)
             cross_elasticity_row_0[0] = 0 # 对角线为 0
 
@@ -94,7 +94,8 @@ class PricingEnvironment:
             self.base_demands = np.random.uniform(50, 100, n_products)
             # 价格弹性 (价格每升高一级，需求减少的数量) - 必须是负数
             # 这里简化，弹性系数乘以价格等级 (1 to n_levels)
-            self.price_elasticities = np.random.uniform(-15, -8, n_products)
+            # 修改: 增大价格弹性的负值范围
+            self.price_elasticities = np.random.uniform(-25, -15, n_products)
             print(f"价格弹性已初始化: {self.price_elasticities}") # 打印弹性系数
             print(f"基础需求: {np.round(self.base_demands, 2)}")
             print(f"价格弹性: {np.round(self.price_elasticities, 2)}")
@@ -289,11 +290,12 @@ class PricingEnvironment:
                 self.current_inventory[agent_id] += amount_to_add
                 # 标记该 agent 的订单已完成，可以下新订单了
                 self.order_pending_for_agent[agent_id] = False
-                print(f"\n--- Step {self.current_step}: Replenishment ARRIVED for Agent {agent_id} ---")
-                print(f"  Order placed at step: {arrival_step - self.replenishment_lead_time -1}") # 反推下单时间
-                print(f"  Inventory Before Arrival: {inventory_before_arrival[agent_id]:.1f}")
-                print(f"  Amount Added (capped at {self.max_inventory_capacity}): {amount_to_add:.1f}")
-                print(f"  Inventory After Arrival: {self.current_inventory[agent_id]:.1f}\n")
+                # 注释掉详细的到达日志
+                # print(f"\n--- Step {self.current_step}: Replenishment ARRIVED for Agent {agent_id} ---")
+                # print(f"  Order placed at step: {arrival_step - self.replenishment_lead_time -1}") # 反推下单时间
+                # print(f"  Inventory Before Arrival: {inventory_before_arrival[agent_id]:.1f}")
+                # print(f"  Amount Added (capped at {self.max_inventory_capacity}): {amount_to_add:.1f}")
+                # print(f"  Inventory After Arrival: {self.current_inventory[agent_id]:.1f}\n")
 
         # --- 2. 冲击状态更新 ---
         if not self.shock_active:
@@ -367,9 +369,10 @@ class PricingEnvironment:
                 heapq.heappush(self.pending_replenishments, (arrival_step, i, amount))
                 # 标记该 agent 已有在途订单
                 self.order_pending_for_agent[i] = True
-                print(f"\n--- Step {self.current_step}: Replenishment ORDER PLACED for Agent {i} ---")
-                print(f"  Inventory After Sales: {inventory_after_sales[i]:.1f} (< Threshold {self.replenishment_threshold})")
-                print(f"  Order Amount: {amount}, Expected Arrival Step: {arrival_step}\n")
+                # 注释掉详细的下单日志
+                # print(f"\n--- Step {self.current_step}: Replenishment ORDER PLACED for Agent {i} ---")
+                # print(f"  Inventory After Sales: {inventory_after_sales[i]:.1f} (< Threshold {self.replenishment_threshold})")
+                # print(f"  Order Amount: {amount}, Expected Arrival Step: {arrival_step}\n")
 
         # --- 7. 更新时间和状态 ---
         self.current_step += 1
@@ -411,7 +414,7 @@ if __name__ == '__main__':
     n_agents = 3
     n_levels = 5
     env = PricingEnvironment(n_products=n_agents, n_price_levels=n_levels, episode_length=120,
-                             initial_inventory=150, holding_cost=0.01,
+                             initial_inventory=150, holding_cost=0.1,
                              replenishment_threshold=50, replenishment_amount=100, max_inventory_capacity=200,
                              stockout_penalty_per_unit=1.0) # 测试阈值和缺货惩罚
     env_info = env.get_env_info()
