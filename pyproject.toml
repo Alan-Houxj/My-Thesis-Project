@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools", "wheel", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PlotNeuralNet"
+version = "0.1.0"
+description = "Visualize neural networks with a focus on easy-to-use diagrams."
+readme = {file = "README.md", content-type = "text/markdown"}
+authors = [
+    {name = "Kaden Gruizenga", email = "kgruiz@umich.edu"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+dependencies = []  # Add runtime dependencies if needed
+
+[project.urls]
+Source = "https://github.com/kgruiz/PlotNeuralNet"
+Original_Work = "https://github.com/HarisIqbal88/PlotNeuralNet" 
