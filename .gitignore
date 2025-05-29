@@ -14,7 +14,7 @@ ENV/
 .idea/
 
 # Data / Results (避免将大型数据文件或模型检查点纳入版本控制)
-results_*/
+# results_*/
 *.pth
 *.pt
 *.onnx
